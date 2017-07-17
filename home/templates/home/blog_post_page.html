@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags%}
+
+{% block body_class %}template-blogpostpage{% endblock %}
+
+{% block content %}
+    <h1>{{ page.title }}</h1><br/>
+    <p>Tags:
+        {% for tag in page.tags.all %}
+            <a href="{% slugurl 'tags' %}?tag={{ tag }}">{{ tag }}</a>
+        {% endfor %}
+    </p>
+    {{ page.intro }}<br/>
+    {{ page.date }}<br/>
+    {{ page.body|richtext }}<br/>
+    {% for item in page.gallery_images.all %}
+        <div style="display: inline-block; margin: 10px">
+            {% image item.image fill-320x240 %}
+            <p>{{ item.caption }}</p>
+        </div>
+    {% endfor %}
+    <br/>
+    <p><a href="{{ page.get_parent.url }}">Return to index page</a></p>
+{% endblock %}
